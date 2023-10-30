@@ -7,6 +7,7 @@ import hpp from 'hpp'
 import { Server as HttpServer, createServer } from 'http'
 import { HttpTerminator, createHttpTerminator } from 'http-terminator'
 import path from 'path'
+import authController from './controllers/auth.controller'
 import userController from './controllers/user.controller'
 import corsOptions from './libs/cors'
 import { sysLog } from './libs/logger'
@@ -27,7 +28,7 @@ class ExpressServer {
 
   private _configure(): void {
     // Features
-    this.express.enable('trust proxy')
+    this.express.set('trust proxy', 1)
     this.express.set('port', process.env.PORT || 8000)
     // Core Middlewares
     this.express.use(cors(corsOptions))
@@ -44,7 +45,7 @@ class ExpressServer {
     this.express.get('/', (_req: Request, res: Response) => {
       res.send('All Ok !')
     })
-
+    this.express.use(`/v1/auth/`, authController.router)
     this.express.use('/v1/users/', userController.router)
   }
 
