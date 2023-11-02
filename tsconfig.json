@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "importHelpers": true,
@@ -22,13 +22,9 @@
     "outDir": "./build",
     "removeComments": true,
     "noEmitOnError": true,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "src/*": ["src/*"],
-      "libs/*": ["src/libs/*"],
-      "repos/*": ["src/repos/*"],
-      "controllers/*": ["src/controllers/*"],
-      "middlewares/*": ["src/middlewares/*"]
+      "@/*": ["src/*"] // Now you can import file like '@/...'
     }
   },
   "include": ["src/**/*", "__tests__/**/*"],

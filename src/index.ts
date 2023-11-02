@@ -1,8 +1,8 @@
-import * as dotenv from 'dotenv'
-import 'src/process'
-import { JWTKey } from './libs/jwt'
-import ExpressServer from './server'
-dotenv.config()
+import '@/process';
+import * as dotenv from 'dotenv';
+import { JWTKey } from './libs/jwt';
+import ExpressServer from './server';
+dotenv.config();
 
 export const APP_ENV = {
   // APP
@@ -31,11 +31,11 @@ export const APP_ENV = {
   JWT_ACCESS_PUB: process.env?.JWT_ACCESS_PUB,
   JWT_REFRESH_PUB: process.env?.JWT_REFRESH_PUB,
   JWT_ACCESS_PRIV: process.env?.JWT_ACCESS,
-  JWT_REFRESH_PRIV: process.env?.JWT_REFRESH
-}
+  JWT_REFRESH_PRIV: process.env?.JWT_REFRESH,
+};
 
-const keyGen = new JWTKey()
-keyGen.generate()
+const keyGen = new JWTKey();
+keyGen.generate();
 
 // redisClient.connect()
-ExpressServer.start()
+ExpressServer.start();
