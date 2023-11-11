@@ -53,8 +53,8 @@ class AuthController extends BaseController {
       // pass 'user' object to repository/service
       const user = await userRepo.save({
         fullname,
-        username,
-        email,
+        username: username?.toLowerCase(),
+        email: email?.toLowerCase(),
         hashedPassword,
         avater: null,
       });
@@ -113,10 +113,11 @@ class AuthController extends BaseController {
   /**
    * configure router
    */
-  configureRoutes() {
-    this.router.post('/signup', this.register);
-    this.router.post('/signin', this.login);
-    // this._showRoutes()
+  public configureRoutes() {
+    this.POST('/signup', this.register);
+    this.POST('/signin', this.login);
+    //
+    // this.$showRoutes();
   }
 }
 export default new AuthController();

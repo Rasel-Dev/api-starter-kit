@@ -38,7 +38,12 @@
       "   * configure router",
       "   */",
       "  configureRoutes() {",
-      "    this.router.post('/', this.methodName)",
+      "    this.GET('/', this.methodName)",
+      "    // this.POST('/', this.methodName)",
+      "    // this.PUT('/', this.methodName)",
+      "    // this.PATCH('/', this.methodName)",
+      "    // this.DELETE('/', this.methodName)",
+      "    // You can show the routes you are defined",
       "    // this._showRoutes()",
       "  }",
       "}",
@@ -66,7 +71,7 @@
   "ValidationMethod": {
     "prefix": "valiMethod",
     "body": [
-      "private ${1:controllerName} = async (req: Request, res: Response, next: NextFunction): Promise<void> => {",
+      "private ${1:methodName} = async (req: Request, res: Response, next: NextFunction): Promise<void> => {",
       "    const {} = req.params",
       "    const {} = req.body",
       "    const {} = req.query",

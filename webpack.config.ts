@@ -1,8 +1,8 @@
 import path from 'path';
+// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import WebpackShellPluginNext from 'webpack-shell-plugin-next';
-// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const getConfig = (
   _env: { [key: string]: string },

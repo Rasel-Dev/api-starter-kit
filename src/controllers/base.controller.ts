@@ -1,33 +1,59 @@
 import { verifyToken } from '@/libs';
-import { NextFunction, Request, Response, Router } from 'express';
+import {
+  NextFunction,
+  Request,
+  RequestHandler,
+  Response,
+  Router,
+} from 'express';
 
 export default abstract class BaseController {
-  protected router: Router;
+  public $router: Router;
 
   constructor() {
-    this.router = Router();
+    this.$router = Router();
   }
   /**
    * To enforce use this configureRoutes method for child classes
    */
   abstract configureRoutes(): void;
 
-  public getRouter() {
-    return this.router;
+  /**
+   * HTTP methods
+   */
+  protected GET(path: string, ...handlers: RequestHandler<any>[]) {
+    this.$router.get(path, handlers);
   }
+
+  protected POST(path: string, ...handlers: RequestHandler<any>[]) {
+    this.$router.post(path, handlers);
+  }
+
+  protected PUT(path: string, ...handlers: RequestHandler<any>[]) {
+    this.$router.put(path, handlers);
+  }
+
+  protected PATCH(path: string, ...handlers: RequestHandler<any>[]) {
+    this.$router.patch(path, handlers);
+  }
+
+  protected DELETE(path: string, ...handlers: RequestHandler<any>[]) {
+    this.$router.delete(path, handlers);
+  }
+
   /**
    * Show all registered routes within inherited controller
    */
-  protected _showRoutes() {
+  protected $showRoutes() {
     let routePaths = [];
-    this.router.stack.forEach((stack: any) => {
+    this.$router.stack.forEach((stack: any) => {
       routePaths.push({
-        controller: this.constructor.name,
         path: stack.route?.path,
         method: (stack.route?.stack[0]?.method).toUpperCase(),
+        controller: this.constructor.name,
       });
     });
-    console.table(routePaths, ['controller', 'method', 'path']);
+    console.table(routePaths, ['method', 'path', 'controller']);
   }
 
   protected isAuth = async (

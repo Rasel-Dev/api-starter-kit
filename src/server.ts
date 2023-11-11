@@ -45,8 +45,9 @@ class ExpressServer {
     this.express.get('/', (_req: Request, res: Response) => {
       res.send('All Ok !');
     });
-    this.express.use(`/v1/auth/`, authController.getRouter);
-    this.express.use('/v1/users/', userController.getRouter);
+
+    this.express.use(`/v1/auth/`, authController.$router);
+    this.express.use('/v1/users/', userController.$router);
   }
 
   private _errorRoutes(): void {

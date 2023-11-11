@@ -1,6 +1,6 @@
+import userRepo from '@/repos/user';
 import { NextFunction, Request, Response } from 'express';
 import BaseController from './base.controller';
-import userRepo from '@/repos/user';
 
 class UserController extends BaseController {
   constructor() {
@@ -23,9 +23,9 @@ class UserController extends BaseController {
    */
   public configureRoutes() {
     // auth
-    this.router.get('/', this.isAuth, this.profile);
-
-    // this._showRoutes()
+    this.GET('/', this.isAuth, this.profile);
+    //
+    // this.$showRoutes();
   }
 }
 
