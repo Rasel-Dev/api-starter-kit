@@ -134,7 +134,7 @@ export default abstract class BaseController {
 
   protected sendError(
     res: Response,
-    message: string,
+    message: string | Record<string, any>,
     statusCode = 500
   ): Response {
     return res.status(statusCode).json({
