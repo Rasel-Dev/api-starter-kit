@@ -8,6 +8,8 @@ import { Server as HttpServer, createServer } from 'http';
 import { HttpTerminator, createHttpTerminator } from 'http-terminator';
 import path from 'path';
 import authController from './controllers/auth.controller';
+import exampleController from './controllers/example.controller';
+import healthController from './controllers/health.controller';
 import userController from './controllers/user.controller';
 import corsOptions from './libs/cors';
 import { sysLog } from './libs/logger';
@@ -42,12 +44,18 @@ class ExpressServer {
   }
 
   private _routes(): void {
-    this.express.get('/', (_req: Request, res: Response) => {
-      res.send('All Ok !');
-    });
+    // this.express.get('/', (_req: Request, res: Response) => {
+    //   res.send('All Ok !');
+    // });
 
-    this.express.use(`/v1/auth/`, authController.$router);
-    this.express.use('/v1/users/', userController.$router);
+    this.express.use(
+      `/v1/${exampleController.path}`,
+      exampleController.$router
+    );
+
+    this.express.use(`/v1/${authController.path}`, authController.$router);
+    this.express.use(`/v1/${userController.path}`, userController.$router);
+    this.express.use(`/v1/${healthController.path}`, healthController.$router);
   }
 
   private _errorRoutes(): void {
