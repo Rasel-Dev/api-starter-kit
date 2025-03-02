@@ -1,21 +1,17 @@
 import userRepo from '@/repos/user';
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import BaseController from './base.controller';
 
 class UserController extends BaseController {
   constructor() {
-    super();
+    super('/users');
     this.configureRoutes();
   }
 
-  private profile = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const userId = req.user;
-      const profile = await userRepo.info(userId);
-      res.json({ id: userId, ...profile });
-    } catch (error) {
-      next(error);
-    }
+  private profile = async (req: Request, res: Response) => {
+    const userId = req.user;
+    const profile = await userRepo.info(userId);
+    this.sendSuccess(res, { id: userId, ...profile });
   };
 
   /**
@@ -23,7 +19,11 @@ class UserController extends BaseController {
    */
   public configureRoutes() {
     // auth
-    this.GET('/', this.isAuth, this.profile);
+    this.GET(
+      '/',
+      this.asyncHandler(this.isAuth),
+      this.asyncHandler(this.profile)
+    );
     //
     // this.$showRoutes();
   }
