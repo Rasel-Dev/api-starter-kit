@@ -2,6 +2,7 @@ import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { NextFunction, Request, Response } from 'express';
+import expressWinston from 'express-winston';
 import helmet from 'helmet';
 import hpp from 'hpp';
 import { Server as HttpServer, createServer } from 'http';
@@ -12,7 +13,7 @@ import exampleController from './controllers/example.controller';
 import healthController from './controllers/health.controller';
 import userController from './controllers/user.controller';
 import corsOptions from './libs/cors';
-import { sysLog } from './libs/logger';
+import { logger, sysLog } from './libs/logger';
 
 class ExpressServer {
   public express: express.Application;
@@ -41,6 +42,14 @@ class ExpressServer {
     this.express.use(express.urlencoded({ extended: true, limit: '100kb' }));
     this.express.use(express.json({ limit: '10kb', type: 'application/json' }));
     this.express.use('/static', express.static(path.resolve('./uploads')));
+    // Express middleware for request logging
+    this.express.use(
+      expressWinston.logger({
+        winstonInstance: logger,
+        meta: true,
+        msg: 'HTTP {{req.method}} {{req.url}}',
+      })
+    );
   }
 
   private _routes(): void {
@@ -91,8 +100,7 @@ class ExpressServer {
 
   public start(): void {
     this.server.listen(this.express.get('port'), () => {
-      // console.log(`Server listening on http://localhost:${this.express.get('port')}`)
-      sysLog.info(
+      logger.info(
         `Server listening on http://localhost:${this.express.get('port')}`
       );
     });

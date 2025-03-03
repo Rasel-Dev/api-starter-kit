@@ -1,3 +1,4 @@
+import { exampleMiddleware } from '@/middlewares/example';
 import { Request, Response } from 'express';
 import BaseController from './base.controller';
 
@@ -16,7 +17,7 @@ class ExampleController extends BaseController {
    */
   public configureRoutes() {
     // auth
-    this.GET('/', this.test);
+    this.GET('/', exampleMiddleware, this.test);
     //
     // this.$showRoutes();
   }

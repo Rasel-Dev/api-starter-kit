@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston'
+import { createLogger, format, transports } from 'winston';
 
 const logLevels = {
   fatal: 0,
@@ -6,25 +6,28 @@ const logLevels = {
   warn: 2,
   info: 3,
   debug: 4,
-  trace: 5
-}
-
-const logger = createLogger({
-  levels: logLevels,
-  format: format.combine(format.timestamp(), format.json()),
-  defaultMeta: {
-    service: 'billing-service'
-  },
-  transports: [new transports.Console({})]
-})
-
-export default logger
+  trace: 5,
+};
 
 export const sysLog = createLogger({
   levels: logLevels,
   format: format.combine(format.timestamp(), format.json()),
   defaultMeta: {
-    service: 'system-service'
+    service: 'system-service',
   },
-  transports: [new transports.Console({})]
-})
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: 'logs/system.log' }),
+  ],
+});
+
+// Configure logger
+export const logger = createLogger({
+  level: 'info',
+  levels: logLevels,
+  format: format.combine(format.timestamp(), format.json()),
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: 'logs/combined.log' }),
+  ],
+});

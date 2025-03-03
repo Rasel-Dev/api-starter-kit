@@ -114,8 +114,8 @@ class AuthController extends BaseController {
    * configure router
    */
   public configureRoutes() {
-    this.POST('/signup', this.asyncHandler(this.register));
-    this.POST('/signin', this.asyncHandler(this.login));
+    this.POST('/signup', this.register);
+    this.POST('/signin', this.login);
     //
     // this.$showRoutes();
   }

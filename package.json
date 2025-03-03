@@ -58,13 +58,14 @@
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-winston": "^4.2.0",
     "helmet": "^6.0.1",
     "hpp": "^0.2.3",
     "http-terminator": "^3.2.0",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
     "uuid": "^9.0.0",
-    "winston": "^3.10.0"
+    "winston": "^3.17.0"
   },
   "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b"
 }

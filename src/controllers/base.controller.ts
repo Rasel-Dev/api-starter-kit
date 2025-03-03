@@ -1,4 +1,3 @@
-import { verifyToken } from '@/libs';
 import {
   NextFunction,
   Request,
@@ -96,32 +95,38 @@ export default abstract class BaseController {
 
   abstract configureRoutes(): void;
 
+  private registerHandler<T>(
+    ...handlers: RequestHandler<T>[]
+  ): RequestHandler[] {
+    return handlers.map((h) => this.asyncHandler(h as any));
+  }
+
   // Typed HTTP methods
   protected GET<T = any>(path: string, ...handlers: RequestHandler<T>[]) {
-    this.$router.get(path, ...handlers);
+    this.$router.get(path, ...this.registerHandler<T>(...handlers));
   }
 
   protected POST<T = any>(path: string, ...handlers: RequestHandler<T>[]) {
-    this.$router.post(path, ...handlers);
+    this.$router.post(path, ...this.registerHandler<T>(...handlers));
   }
 
   protected PUT<T = any>(path: string, ...handlers: RequestHandler<T>[]) {
-    this.$router.put(path, ...handlers);
+    this.$router.put(path, ...this.registerHandler<T>(...handlers));
   }
 
   protected PATCH<T = any>(path: string, ...handlers: RequestHandler<T>[]) {
-    this.$router.patch(path, ...handlers);
+    this.$router.patch(path, ...this.registerHandler<T>(...handlers));
   }
 
   protected DELETE<T = any>(path: string, ...handlers: RequestHandler<T>[]) {
-    this.$router.delete(path, ...handlers);
+    this.$router.delete(path, ...this.registerHandler<T>(...handlers));
   }
 
   // Central error handler
-  protected asyncHandler(
+  private asyncHandler(
     fn: (req: Request, res: Response, next: NextFunction) => Promise<any>
   ): RequestHandler {
-    return (req, res, next) => fn(req, res, next).catch(next);
+    return (req, res, next) => fn(req, res, next)?.catch(next);
   }
 
   // Standardized responses
@@ -156,32 +161,4 @@ export default abstract class BaseController {
       console.table(routes);
     }
   }
-
-  protected isAuth = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    let token =
-      req.body?.token ||
-      req.query?.token ||
-      req.headers['authorization'] ||
-      req.headers['x-access-token'];
-
-    if (!token) {
-      res.status(403).send('Unauthorized!');
-      return;
-    }
-    if (token.toLowerCase().startsWith('bearer')) {
-      token = token.slice('bearer'.length).trim();
-    }
-    try {
-      const decoded = verifyToken(token);
-      req.user = decoded.aud;
-    } catch (err) {
-      res.status(401).send('Invalid Token');
-      return;
-    }
-    next();
-  };
 }

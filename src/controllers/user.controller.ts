@@ -1,3 +1,4 @@
+import { isAuth } from '@/middlewares/auth';
 import userRepo from '@/repos/user';
 import { Request, Response } from 'express';
 import BaseController from './base.controller';
@@ -19,11 +20,7 @@ class UserController extends BaseController {
    */
   public configureRoutes() {
     // auth
-    this.GET(
-      '/',
-      this.asyncHandler(this.isAuth),
-      this.asyncHandler(this.profile)
-    );
+    this.GET('/', isAuth, this.profile);
     //
     // this.$showRoutes();
   }

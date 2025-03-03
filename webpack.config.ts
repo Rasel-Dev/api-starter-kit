@@ -1,5 +1,5 @@
 import path from 'path';
-// import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { Configuration } from 'webpack';
 import nodeExternals from 'webpack-node-externals';
 import WebpackShellPluginNext from 'webpack-shell-plugin-next';
@@ -15,6 +15,7 @@ const getConfig = (
     entry: './src/index.ts',
     target: 'node',
     mode: argv.mode === 'production' ? 'production' : 'development',
+    devtool: 'source-map',
     externals: [nodeExternals()],
     plugins: [
       new WebpackShellPluginNext({
@@ -41,7 +42,7 @@ const getConfig = (
       ],
     },
     resolve: {
-      // plugins: [new TsconfigPathsPlugin()],
+      plugins: [new TsconfigPathsPlugin()],
       extensions: ['.ts', '.js'],
       alias: {
         '@': path.resolve(__dirname, 'src'),
