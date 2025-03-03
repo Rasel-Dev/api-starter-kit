@@ -4,7 +4,7 @@ import BaseController from './base.controller';
 
 class UserController extends BaseController {
   constructor() {
-    super('/users');
+    super('users');
     this.configureRoutes();
   }
 

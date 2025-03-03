@@ -3,7 +3,7 @@ import BaseController from './base.controller';
 
 class HealthController extends BaseController {
   constructor() {
-    super('/health');
+    super('health');
     this.configureRoutes();
   }
 
@@ -16,6 +16,8 @@ class HealthController extends BaseController {
 
   public configureRoutes() {
     this.GET('/', this.checkHealth);
+    //
+    // this.$showRoutes();
   }
 }
 

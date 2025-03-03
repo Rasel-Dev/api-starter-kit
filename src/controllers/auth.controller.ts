@@ -1,7 +1,7 @@
 import { emailReg } from '@/libs';
 import { setJWT } from '@/libs/cookie';
 import userRepo from '@/repos/user';
-import { compare, hash } from 'bcrypt';
+import { compare, hash } from 'bcryptjs';
 import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
 import BaseController from './base.controller';
@@ -10,7 +10,7 @@ class AuthController extends BaseController {
   constructor() {
     // super();
     // this.configureRoutes();
-    super('/auth');
+    super('auth');
     this.configureRoutes();
   }
   private register = async (req: Request, res: Response) => {

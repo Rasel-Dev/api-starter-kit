@@ -3,7 +3,7 @@ import BaseController from './base.controller';
 
 class ExampleController extends BaseController {
   constructor() {
-    super('/');
+    super('');
     this.configureRoutes();
   }
 

@@ -149,7 +149,7 @@ export default abstract class BaseController {
       const routes = this.$router.stack
         .filter((layer) => layer.route)
         .map((layer) => ({
-          method: Object.keys(layer.route.methods)[0].toUpperCase(),
+          method: layer.route.stack[0]?.method,
           path: `${this.path}${layer.route.path}`,
           controller: this.constructor.name,
         }));
